@@ -1,0 +1,7 @@
+.c-btn {
+  padding: 5px 10px;
+  border-radius: 15px;
+}
+.active {
+  background-color: rgb(45, 45, 218);
+}
