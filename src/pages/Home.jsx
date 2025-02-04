@@ -12,6 +12,7 @@ const Home = () => {
   const [activities, setActivities] = useState([]);
   const [title, setTitle] = useState("");
   const [load, setLoad] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [reps, setReps] = useState("");
   const navigate = useNavigate();
   const usernameLocal = localStorage.getItem("user");
@@ -62,6 +63,7 @@ const Home = () => {
     };
 
     try {
+      setIsLoading(true);
       const response = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/activities`,
         data,
@@ -79,6 +81,7 @@ const Home = () => {
       setTitle("");
       setLoad("");
       setReps("");
+      setIsLoading(false);
     } catch (error) {
       console.error("Error creating workout:", error);
       if (error.response?.status === 401) {
@@ -91,6 +94,7 @@ const Home = () => {
           variant: "error",
         });
       }
+      setIsLoading(true);
     }
   };
 
@@ -209,6 +213,7 @@ const Home = () => {
                 placeholder="Enter number of reps"
               />
             </div>
+
             <button
               className="btn btn-primary rounded-pill w-100 py-2 fw-bold"
               type="submit"
@@ -218,7 +223,14 @@ const Home = () => {
                 border: "none",
               }}
             >
-              Add Workout
+              {isLoading ? (
+                <div
+                  className="spinner-border spinner-border-sm"
+                  role="status"
+                />
+              ) : (
+                " Add Workout"
+              )}
             </button>
           </form>
         </div>
